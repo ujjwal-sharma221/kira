@@ -24,8 +24,10 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { registerSchema, registerValues } from "@/lib/schemas/auth-schema";
+import { useRegister } from "../api/use-register";
 
 export function SignUpCard() {
+  const { mutate } = useRegister();
   const [showPassword, setShowPassword] = useState(false);
   const form = useForm<registerValues>({
     defaultValues: {
@@ -37,8 +39,9 @@ export function SignUpCard() {
   });
 
   function onSubmit(values: registerValues) {
-    console.log(values);
+    mutate({ json: values });
   }
+
   return (
     <Card className="h-full w-full border-none shadow-none md:w-[487px]">
       <CardHeader className="flex items-center justify-center p-7 text-center">

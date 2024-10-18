@@ -24,8 +24,10 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
+import { uselogin } from "../api/use-login";
 
 export function SignInCard() {
+  const { mutate } = uselogin();
   const [showPassword, setShowPassword] = useState(false);
   const form = useForm<loginValues>({
     defaultValues: {
@@ -36,7 +38,7 @@ export function SignInCard() {
   });
 
   function onSubmit(values: loginValues) {
-    console.log(values);
+    mutate({ json: values });
   }
 
   return (
