@@ -1,3 +1,5 @@
+"use client";
+
 import Image from "next/image";
 import { Eye, EyeClosed, Github } from "lucide-react";
 import { useForm } from "react-hook-form";
@@ -27,7 +29,7 @@ import {
 import { uselogin } from "../api/use-login";
 
 export function SignInCard() {
-  const { mutate } = uselogin();
+  const { mutate, isPending } = uselogin();
   const [showPassword, setShowPassword] = useState(false);
   const form = useForm<loginValues>({
     defaultValues: {
@@ -100,7 +102,12 @@ export function SignInCard() {
                 </FormItem>
               )}
             />
-            <Button size="lg" className="w-full" type="submit">
+            <Button
+              disabled={isPending}
+              size="lg"
+              className="w-full"
+              type="submit"
+            >
               Submit
             </Button>
           </form>
@@ -111,7 +118,12 @@ export function SignInCard() {
         <TextDivider text="Other login methods" />
       </div>
       <CardContent className="flex flex-col gap-y-4 p-7">
-        <Button className="w-full" variant="outline" size="lg">
+        <Button
+          className="w-full"
+          variant="outline"
+          size="lg"
+          disabled={isPending}
+        >
           <Image
             src="/google.svg"
             height={25}
@@ -121,7 +133,12 @@ export function SignInCard() {
           />
           Login with google
         </Button>
-        <Button className="w-full" variant="outline" size="lg">
+        <Button
+          className="w-full"
+          variant="outline"
+          size="lg"
+          disabled={isPending}
+        >
           <Github />
           Login with github
         </Button>

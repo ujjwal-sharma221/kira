@@ -1,3 +1,5 @@
+"use client";
+
 import Image from "next/image";
 import { Eye, EyeClosed, Github } from "lucide-react";
 import { useForm } from "react-hook-form";
@@ -27,7 +29,7 @@ import { registerSchema, registerValues } from "@/lib/schemas/auth-schema";
 import { useRegister } from "../api/use-register";
 
 export function SignUpCard() {
-  const { mutate } = useRegister();
+  const { mutate, isPending } = useRegister();
   const [showPassword, setShowPassword] = useState(false);
   const form = useForm<registerValues>({
     defaultValues: {
@@ -106,6 +108,7 @@ export function SignUpCard() {
                       <button
                         type="button"
                         onClick={() => setShowPassword(!showPassword)}
+                        disabled={isPending}
                       >
                         {showPassword ? (
                           <Eye className="size-5 text-neutral-600" />
@@ -119,7 +122,12 @@ export function SignUpCard() {
                 </FormItem>
               )}
             />
-            <Button size="lg" className="w-full" type="submit">
+            <Button
+              size="lg"
+              className="w-full"
+              type="submit"
+              disabled={isPending}
+            >
               Submit
             </Button>
           </form>
@@ -130,7 +138,12 @@ export function SignUpCard() {
         <TextDivider text="Other login methods" />
       </div>
       <CardContent className="flex flex-col gap-y-4 p-7">
-        <Button className="w-full" variant="outline" size="lg">
+        <Button
+          className="w-full"
+          variant="outline"
+          size="lg"
+          disabled={isPending}
+        >
           <Image
             src="/google.svg"
             height={25}
@@ -140,7 +153,12 @@ export function SignUpCard() {
           />
           Login with google
         </Button>
-        <Button className="w-full" variant="outline" size="lg">
+        <Button
+          className="w-full"
+          variant="outline"
+          size="lg"
+          disabled={isPending}
+        >
           <Github />
           Login with github
         </Button>
