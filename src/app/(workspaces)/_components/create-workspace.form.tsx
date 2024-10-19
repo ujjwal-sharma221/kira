@@ -2,6 +2,9 @@
 
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
+import { useRef } from "react";
+import Image from "next/image";
+import { ImageIcon } from "lucide-react";
 
 import {
   createWorkspaceSchema,
@@ -20,6 +23,7 @@ import {
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { useCreateWorkspace } from "../api/use-create-workspace";
+import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 
 interface CreateWorkspaceFormProps {
   onCancel?: () => void;
@@ -27,6 +31,8 @@ interface CreateWorkspaceFormProps {
 
 export const CreateWorkspaceForm = ({ onCancel }: CreateWorkspaceFormProps) => {
   const { mutate, isPending } = useCreateWorkspace();
+  const inputRef = useRef<HTMLInputElement>(null);
+
   const form = useForm<newWorkspaceValues>({
     resolver: zodResolver(createWorkspaceSchema),
     defaultValues: {
@@ -35,11 +41,29 @@ export const CreateWorkspaceForm = ({ onCancel }: CreateWorkspaceFormProps) => {
   });
 
   function onSubmit(values: newWorkspaceValues) {
-    mutate({ json: values });
+    const finalVals = {
+      ...values,
+      image: values.image instanceof File ? values.image : "",
+    };
+    mutate(
+      { form: finalVals },
+      {
+        onSuccess: () => {
+          form.reset();
+        },
+      },
+    );
+  }
+
+  function handleImageChange(e: React.ChangeEvent<HTMLInputElement>) {
+    const file = e.target.files?.[0];
+    if (file) {
+      form.setValue("image", file);
+    }
   }
 
   return (
-    <Card className="h-full w-full border-none bg-[#96a6d3] text-[#222222] shadow-none">
+    <Card className="h-full w-full border-none bg-[#F8F8F8] text-[#222222] shadow-none">
       <CardHeader className="flex p-7">
         <CardTitle className="text-xl font-bold">
           Create a new Workspace
@@ -61,13 +85,67 @@ export const CreateWorkspaceForm = ({ onCancel }: CreateWorkspaceFormProps) => {
                     <FormLabel>Workspace Name</FormLabel>
                     <FormControl>
                       <Input
-                        className="bg-[#F8F8F8]"
+                        className=""
                         placeholder="Doofenshmirtz Evil Inc."
                         {...field}
                       />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
+                )}
+              />
+
+              <FormField
+                control={form.control}
+                name="image"
+                render={({ field }) => (
+                  <div className="flex flex-col gap-y-2">
+                    <div className="flex items-center gap-x-5">
+                      {field.value ? (
+                        <div className="relative size-[72px] overflow-hidden rounded-md">
+                          <Image
+                            src={
+                              field.value instanceof File
+                                ? URL.createObjectURL(field.value)
+                                : field.value
+                            }
+                            alt="logo"
+                            fill
+                            className="object-cover"
+                          />
+                        </div>
+                      ) : (
+                        <Avatar className="size-[72px]">
+                          <AvatarFallback>
+                            <ImageIcon className="size-[36px]" />
+                          </AvatarFallback>
+                        </Avatar>
+                      )}
+                      <div className="flex flex-col">
+                        <p className="text-sm">Workspace Icon</p>
+                        <p className="text-sm text-muted-foreground">
+                          JPEG, PNG, SVG or JPG (max 1MB)
+                        </p>
+                        <input
+                          disabled={isPending}
+                          onChange={handleImageChange}
+                          hidden
+                          accept=".jpg, .png, .jpeg, .svg"
+                          type="file"
+                          ref={inputRef}
+                        />
+                        <Button
+                          type="button"
+                          size="sm"
+                          className="mt-2 w-fit bg-gradient-to-r from-rose-400 to-red-500"
+                          onClick={() => inputRef.current?.click()}
+                          disabled={isPending}
+                        >
+                          Upload Image
+                        </Button>
+                      </div>
+                    </div>
+                  </div>
                 )}
               />
             </div>
