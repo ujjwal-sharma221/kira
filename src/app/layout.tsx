@@ -4,6 +4,7 @@ import { Inter } from "next/font/google";
 import "./globals.css";
 import { cn } from "@/lib/utils";
 import { ReactQueryProvider } from "@/lib/providers/query-provider";
+import { Toaster } from "@/components/ui/sonner";
 
 export const metadata: Metadata = {
   title: "Create Next App",
@@ -20,7 +21,10 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={cn(inter.className, `min-h-screen antialiased`)}>
-        <ReactQueryProvider>{children}</ReactQueryProvider>
+        <ReactQueryProvider>
+          <Toaster position="top-right" closeButton />
+          {children}
+        </ReactQueryProvider>
       </body>
     </html>
   );
