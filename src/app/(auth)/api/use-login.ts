@@ -8,7 +8,7 @@ import { useRouter } from "next/navigation";
 type ResponseType = InferResponseType<(typeof client.api.auth.login)["$post"]>;
 type RequestType = InferRequestType<(typeof client.api.auth.login)["$post"]>;
 
-export function uselogin() {
+export function Login() {
   const router = useRouter();
   const queryClient = useQueryClient();
 

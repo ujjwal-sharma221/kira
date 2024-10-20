@@ -26,10 +26,10 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
-import { uselogin } from "../api/use-login";
+import { Login } from "../api/use-login";
 
 export function SignInCard() {
-  const { mutate, isPending } = uselogin();
+  const { mutate, isPending } = Login();
   const [showPassword, setShowPassword] = useState(false);
   const form = useForm<loginValues>({
     defaultValues: {
