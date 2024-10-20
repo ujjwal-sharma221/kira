@@ -17,7 +17,7 @@ export function WorkspaceAvatar({
   if (image) {
     return (
       <div
-        className={cn("relative size-10 overflow-hidden rounded-md", className)}
+        className={cn("relative size-8 overflow-hidden rounded-md", className)}
       >
         <Image src={image} alt={name} fill className="object-cover" />
       </div>
