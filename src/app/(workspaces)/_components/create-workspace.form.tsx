@@ -137,7 +137,7 @@ export const CreateWorkspaceForm = ({ onCancel }: CreateWorkspaceFormProps) => {
                         <Button
                           type="button"
                           size="sm"
-                          className="mt-2 w-fit bg-gradient-to-r from-rose-400 to-red-500"
+                          className="mt-2 w-fit border bg-[#ff535b] text-black hover:bg-neutral-300"
                           onClick={() => inputRef.current?.click()}
                           disabled={isPending}
                         >
@@ -157,7 +157,7 @@ export const CreateWorkspaceForm = ({ onCancel }: CreateWorkspaceFormProps) => {
                 size="lg"
                 variant="secondary"
                 onClick={onCancel}
-                className="border border-black bg-transparent"
+                className="border border-black bg-transparent hover:bg-neutral-200"
               >
                 Cancel
               </Button>

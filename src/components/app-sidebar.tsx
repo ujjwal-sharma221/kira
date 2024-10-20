@@ -14,6 +14,7 @@ import {
   SidebarMenuItem,
   SidebarSeparator,
 } from "@/components/ui/sidebar";
+import { WorkspaceSwitcher } from "./workspace-switcher";
 
 const items = [
   {
@@ -50,6 +51,14 @@ export function AppSidebar() {
         </div>
       </SidebarHeader>
       <SidebarSeparator />
+
+      <SidebarMenu className="bg-white">
+        <SidebarMenuItem>
+          <WorkspaceSwitcher />
+        </SidebarMenuItem>
+      </SidebarMenu>
+
+      <SidebarSeparator />
       <SidebarContent className="bg-white">
         <SidebarGroup>
           <SidebarGroupContent>
@@ -68,7 +77,8 @@ export function AppSidebar() {
           </SidebarGroupContent>
         </SidebarGroup>
       </SidebarContent>
-      <SidebarFooter className="text-xs font-semibold">
+
+      <SidebarFooter className="bg-[#B9C7D4] text-xs font-semibold text-black">
         (Command / Control) + B
       </SidebarFooter>
     </Sidebar>
