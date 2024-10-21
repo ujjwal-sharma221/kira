@@ -2,7 +2,6 @@
 
 import Image from "next/image";
 
-import { useCurrent } from "@/app/(auth)/api/use-current";
 import { Avatar, AvatarFallback } from "./ui/avatar";
 import {
   DropdownMenu,
@@ -12,7 +11,8 @@ import {
   DropdownMenuTrigger,
 } from "./ui/dropdown-menu";
 import { LogOut } from "lucide-react";
-import { useLogout } from "@/app/(auth)/api/use-logout";
+import { useLogout } from "@/features/auth/api/use-logout";
+import { useCurrent } from "@/features/auth/api/use-current";
 
 export function UserButton() {
   const { data: user, isLoading } = useCurrent();

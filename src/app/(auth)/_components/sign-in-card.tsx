@@ -26,7 +26,7 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
-import { Login } from "../api/use-login";
+import { Login } from "@/features/auth/api/use-login";
 
 export function SignInCard() {
   const { mutate, isPending } = Login();

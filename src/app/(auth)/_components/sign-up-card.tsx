@@ -26,7 +26,7 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { registerSchema, registerValues } from "@/lib/schemas/auth-schema";
-import { useRegister } from "../api/use-register";
+import { useRegister } from "@/features/auth/api/use-register";
 
 export function SignUpCard() {
   const { mutate, isPending } = useRegister();
