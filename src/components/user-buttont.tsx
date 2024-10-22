@@ -41,7 +41,7 @@ export function UserButton() {
 
   return (
     <DropdownMenu modal={false}>
-      <DropdownMenuTrigger className="relative outline-none">
+      <DropdownMenuTrigger className="relative rounded-full border outline-none">
         <Avatar className="size-10 border border-neutral-100 transition hover:opacity-75">
           <AvatarFallback className="flex items-center justify-center font-medium">
             {avatarFallback}

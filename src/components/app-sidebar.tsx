@@ -1,3 +1,5 @@
+"use client";
+
 import { Home, ListTodo, Settings, UsersRoundIcon } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
@@ -15,6 +17,7 @@ import {
   SidebarSeparator,
 } from "@/components/ui/sidebar";
 import { WorkspaceSwitcher } from "./workspace-switcher";
+import { useWorkspaceId } from "@/hooks/use-workspace-id";
 
 const items = [
   {
@@ -36,12 +39,14 @@ const items = [
 
   {
     title: "Settings",
-    url: "#",
+    url: "/settings",
     icon: Settings,
   },
 ];
 
 export function AppSidebar() {
+  const workspaceId = useWorkspaceId();
+
   return (
     <Sidebar>
       <SidebarHeader>
@@ -63,16 +68,20 @@ export function AppSidebar() {
         <SidebarGroup>
           <SidebarGroupContent>
             <SidebarMenu>
-              {items.map((item) => (
-                <SidebarMenuItem key={item.title}>
-                  <SidebarMenuButton asChild>
-                    <Link href={item.url}>
-                      <item.icon />
-                      <span>{item.title}</span>
-                    </Link>
-                  </SidebarMenuButton>
-                </SidebarMenuItem>
-              ))}
+              {items.map((item) => {
+                const fullHref = `/workspaces/${workspaceId}${item.url}`;
+
+                return (
+                  <SidebarMenuItem key={item.title}>
+                    <SidebarMenuButton asChild>
+                      <Link href={fullHref}>
+                        <item.icon />
+                        <span>{item.title}</span>
+                      </Link>
+                    </SidebarMenuButton>
+                  </SidebarMenuItem>
+                );
+              })}
             </SidebarMenu>
           </SidebarGroupContent>
         </SidebarGroup>
