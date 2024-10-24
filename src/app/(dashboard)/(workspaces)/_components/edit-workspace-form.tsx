@@ -4,8 +4,9 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { useRef } from "react";
 import Image from "next/image";
-import { ImageIcon, MoveLeft } from "lucide-react";
+import { CopyIcon, ImageIcon, MoveLeft } from "lucide-react";
 import { useRouter } from "next/navigation";
+import { toast } from "sonner";
 
 import {
   updateWorkspaceSchema,
@@ -28,7 +29,8 @@ import { cn } from "@/lib/utils";
 import { workspaceVals } from "@/features/workspaces/workspace-types";
 import { useUpdateWorkspace } from "@/features/workspaces/api/use-update-workspace";
 import { useConfirm } from "@/hooks/use-confirm";
-import { useDeleteWorkspace } from "@/features/workspaces/api/use-delete-workspace";
+import { useDeleteWorkspace } from "@/features/workspaces/api/use-reset-invite-code";
+import { useResetInviteCode } from "@/features/workspaces/api/use-delete-workspace";
 
 interface EditworksapceFormProps {
   onCancel?: () => void;
@@ -49,6 +51,13 @@ export const EditWorkspaceForm = ({
   );
   const { mutate: deleteWorkspace, isPending: deletingWorkspace } =
     useDeleteWorkspace();
+
+  const { mutate: resetInviteCode, isPending: resettingInviteCode } =
+    useResetInviteCode();
+  const [ResetDialog, confirmReset] = useConfirm(
+    "Reset invite link",
+    "This action is irrevisible and will invalidate the current invite link",
+  );
 
   const form = useForm<updateWorkspaceValues>({
     resolver: zodResolver(updateWorkspaceSchema),
@@ -97,9 +106,37 @@ export const EditWorkspaceForm = ({
     );
   }
 
+  async function handleResetInvite() {
+    const ok = await confirmReset();
+    if (!ok) return;
+
+    resetInviteCode(
+      {
+        param: { workspaceId: initialValues.$id },
+      },
+      {
+        onSuccess: () => {
+          router.refresh();
+        },
+      },
+    );
+  }
+
+  let inviteCode = "";
+  if (typeof window !== "undefined") {
+    inviteCode = `${window.location.origin}/workspaces/${initialValues.$id}/join/${initialValues.inviteCode}`;
+  }
+
+  function handleCopyInvite() {
+    navigator.clipboard
+      .writeText(inviteCode)
+      .then(() => toast.message("Invite link copied to device clipboard"));
+  }
+
   return (
     <div className="flex flex-col gap-y-4">
       <DeleteDialog />
+      <ResetDialog />
       <Card className="h-full w-full border-none text-[#222222] shadow-none">
         <CardHeader className="flex flex-row items-center gap-x-4 space-y-0 p-7">
           <Button
@@ -204,7 +241,7 @@ export const EditWorkspaceForm = ({
                             <Button
                               type="button"
                               size="sm"
-                              className="mt-2 w-fit border bg-[#ff535b] text-black hover:bg-neutral-300"
+                              className="mt-2 w-fit border bg-[#9ca6d6] text-[#152b33] hover:bg-neutral-300"
                               onClick={() => inputRef.current?.click()}
                               disabled={isPending}
                             >
@@ -246,6 +283,40 @@ export const EditWorkspaceForm = ({
           </Form>
         </CardContent>
       </Card>
+
+      <Card className="h-full w-full border-none shadow-none">
+        <CardContent className="p-7">
+          <div className="flex flex-col">
+            <h3 className="font-bold">Invite Members</h3>
+            <p className="text-sm text-muted-foreground">
+              Use the invite link to invite members to your workspace
+            </p>
+            <div className="mt-4">
+              <div className="flex items-center gap-x-2">
+                <Input disabled value={inviteCode} />
+                <Button
+                  onClick={handleCopyInvite}
+                  variant="outline"
+                  className="size-12"
+                >
+                  <CopyIcon className="size-5" />
+                </Button>
+              </div>
+            </div>
+
+            <Button
+              disabled={resettingInviteCode}
+              onClick={handleResetInvite}
+              type="button"
+              variant="secondary"
+              className="ml-auto mt-6 w-fit"
+            >
+              Reset invite link
+            </Button>
+          </div>
+        </CardContent>
+      </Card>
+
       <Card className="h-full w-full border-none shadow-none">
         <CardContent className="p-7">
           <div className="flex flex-col">
