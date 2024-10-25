@@ -83,3 +83,33 @@ export const getWorkspace = async ({
     return null;
   }
 };
+
+export const getWorkspaceInfo = async ({
+  workspaceId,
+}: {
+  workspaceId: string;
+}) => {
+  try {
+    const client = new Client()
+      .setEndpoint(process.env.NEXT_PUBLIC_APPWRITE_ENDPOINT!)
+      .setProject(process.env.NEXT_PUBLIC_APPWRITE_PROJECT!);
+
+    const sessionCookie = cookies().get(AUTH_COOKIE);
+    if (!sessionCookie) return null;
+
+    client.setSession(sessionCookie.value);
+
+    const databases = new Databases(client);
+
+    const workspace = await databases.getDocument<workspaceVals>(
+      DATABASE_ID,
+      WORKSPACE_ID,
+      workspaceId,
+    );
+
+    return { name: workspace.name };
+  } catch (error) {
+    console.error(error);
+    return null;
+  }
+};
