@@ -30,7 +30,7 @@ export function ProjectAvatar({
     <Avatar className={cn("size-5 rounded-md", className)}>
       <AvatarFallback
         className={cn(
-          "rounded-sm bg-[#ea5c32] font-semibold uppercase text-white",
+          "rounded-sm bg-[#261A10] font-semibold uppercase text-white",
           fallbackClassName,
         )}
       >

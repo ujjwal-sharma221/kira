@@ -5,7 +5,7 @@ import { useForm } from "react-hook-form";
 import { useRef } from "react";
 import Image from "next/image";
 import { ImageIcon } from "lucide-react";
-// import { useRouter } from "next/navigation";
+import { useRouter } from "next/navigation";
 
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
@@ -34,7 +34,7 @@ interface CreateProjectFormProps {
 
 export const CreateProjectForm = ({ onCancel }: CreateProjectFormProps) => {
   const workspaceId = useWorkspaceId();
-  // const router = useRouter();
+  const router = useRouter();
   const { mutate, isPending } = useCreateProject();
   const inputRef = useRef<HTMLInputElement>(null);
 
@@ -54,8 +54,9 @@ export const CreateProjectForm = ({ onCancel }: CreateProjectFormProps) => {
     mutate(
       { form: finalVals },
       {
-        onSuccess: () => {
+        onSuccess: ({ data }) => {
           form.reset();
+          router.push(`/workspaces/${workspaceId}/projects/${data.$id}`);
         },
       },
     );
