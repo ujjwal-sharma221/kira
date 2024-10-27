@@ -18,6 +18,7 @@ import {
 } from "@/components/ui/sidebar";
 import { WorkspaceSwitcher } from "./workspace-switcher";
 import { useWorkspaceId } from "@/hooks/use-workspace-id";
+import { Projects } from "./projects";
 
 const items = [
   {
@@ -56,7 +57,6 @@ export function AppSidebar() {
         </div>
       </SidebarHeader>
       <SidebarSeparator />
-
       <SidebarMenu className="bg-white">
         <SidebarMenuItem>
           <WorkspaceSwitcher />
@@ -85,6 +85,10 @@ export function AppSidebar() {
             </SidebarMenu>
           </SidebarGroupContent>
         </SidebarGroup>
+        <SidebarSeparator />
+        <div className="">
+          <Projects />
+        </div>
       </SidebarContent>
 
       <SidebarFooter className="bg-[#B9C7D4] text-xs font-semibold text-black">
