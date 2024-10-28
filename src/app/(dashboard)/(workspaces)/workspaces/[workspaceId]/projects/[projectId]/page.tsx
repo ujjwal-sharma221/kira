@@ -6,6 +6,7 @@ import { getCurrent } from "@/features/auth/action";
 import { getProject } from "@/features/projects/actions";
 import { ProjectAvatar } from "@/app/(dashboard)/(projects)/_components/project-avatar";
 import { Button } from "@/components/ui/button";
+import { TaskViewSwitcher } from "@/components/task-view-switcher";
 
 const ProjectIdPage = async ({ params }: { params: { projectId: string } }) => {
   const user = await getCurrent();
@@ -36,6 +37,7 @@ const ProjectIdPage = async ({ params }: { params: { projectId: string } }) => {
           </Button>
         </div>
       </div>
+      <TaskViewSwitcher />
     </div>
   );
 };
