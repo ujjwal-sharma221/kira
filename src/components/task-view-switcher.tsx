@@ -1,15 +1,19 @@
+"use client";
+
 import { ListTodo } from "lucide-react";
 
 import { Button } from "./ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "./ui/tabs";
 import { Separator } from "./ui/separator";
+import { useCreateTaskModal } from "@/hooks/use-create-task-modal";
 
 export function TaskViewSwitcher() {
+  const { open } = useCreateTaskModal();
   return (
     <Tabs className="w-full flex-1 rounded-lg border">
       <div className="flex h-full flex-col overflow-auto p-4">
         <div className="flex flex-col items-center justify-between gap-y-2 lg:flex-row">
-          <TabsList className="w-full lg:w-auto">
+          <TabsList className="w-full lg:w-auto" defaultValue="table">
             <TabsTrigger className="h-8 w-full lg:w-auto" value="table">
               Table
             </TabsTrigger>
@@ -20,7 +24,7 @@ export function TaskViewSwitcher() {
               Calendar
             </TabsTrigger>
           </TabsList>
-          <Button size="sm" className="w-full lg:w-auto">
+          <Button onClick={open} size="sm" className="w-full lg:w-auto">
             <ListTodo className="mr-2 size-4" />
             New
           </Button>

@@ -12,8 +12,8 @@ import {
 } from "./ui/select";
 import { WorkspaceAvatar } from "@/app/(dashboard)/(workspaces)/_components/workspace-avatar";
 import { useWorkspaceId } from "@/hooks/use-workspace-id";
-import { useWorkspaceModal } from "@/hooks/use-create-workspace-modal";
 import { useGetWorkspaces } from "@/features/workspaces/api/use-get-workspaces";
+import { useWorkspaceModal } from "@/hooks/use-create-workspace-modal";
 
 export const WorkspaceSwitcher = () => {
   const router = useRouter();

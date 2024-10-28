@@ -90,7 +90,7 @@ const app = new Hono()
         return { ...t, project, assignee };
       });
 
-      return c.json({ ...tasks, documents: populatedTasks });
+      return c.json({ data: { ...tasks, documents: populatedTasks } });
     },
   )
   .post(
