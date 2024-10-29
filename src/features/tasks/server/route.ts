@@ -8,6 +8,7 @@ import { getMember } from "@/lib/utils";
 import { DATABASE_ID, MEMBERS_ID, PROJECTS_ID, TASKS_ID } from "@/lib/config";
 import { createAdminClient } from "@/lib/appwrite";
 import { projectValues } from "@/features/projects/project-types";
+import { Task } from "../types";
 
 const app = new Hono()
   .get(
@@ -59,7 +60,11 @@ const app = new Hono()
         query.push(Query.search("name", search));
       }
 
-      const tasks = await databases.listDocuments(DATABASE_ID, TASKS_ID, query);
+      const tasks = await databases.listDocuments<Task>(
+        DATABASE_ID,
+        TASKS_ID,
+        query,
+      );
 
       const projectIds = tasks.documents.map((t) => t.projectId);
       const assigneeIds = tasks.documents.map((t) => t.assigneeId);
