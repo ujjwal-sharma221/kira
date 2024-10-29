@@ -4,6 +4,7 @@ import { SidebarProvider } from "@/components/ui/sidebar";
 import { CreateWorkspaceModal } from "./(workspaces)/_components/create-workspace-modal";
 import { CreateProjectModal } from "./(projects)/_components/create-project-modal";
 import { CreateTaskModal } from "./(tasks)/_components/create-task-modal";
+import { EditTaskModal } from "./(tasks)/_components/edit-task-modal";
 
 const DashboardLayout = ({ children }: { children: React.ReactNode }) => {
   return (
@@ -11,6 +12,7 @@ const DashboardLayout = ({ children }: { children: React.ReactNode }) => {
       <CreateWorkspaceModal />
       <CreateProjectModal />
       <CreateTaskModal />
+      <EditTaskModal />
       <div className="flex size-full">
         <div className="w-full">
           <SidebarProvider>
