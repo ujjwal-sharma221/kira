@@ -16,3 +16,9 @@ export type Task = Models.Document & {
   position: number;
   status: TaskStatus;
 };
+
+export type PayloadStatus = {
+  $id: string;
+  status: TaskStatus;
+  position: number;
+};

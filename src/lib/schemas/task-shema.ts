@@ -21,4 +21,14 @@ export const queryTaskSchema = z.object({
   status: z.nativeEnum(TaskStatus).nullish(),
 });
 
+export const postBulkSchema = z.object({
+  tasks: z.array(
+    z.object({
+      $id: z.string(),
+      status: z.nativeEnum(TaskStatus),
+      position: z.number().int().positive().min(100).max(1_000_000),
+    }),
+  ),
+});
+
 export type CreateTaskValues = z.infer<typeof createTaskSchema>;
