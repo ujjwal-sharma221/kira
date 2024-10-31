@@ -6,7 +6,7 @@ export function PageLoader() {
       <Image
         src="/placeholder.svg"
         alt="loader"
-        className="size-6 animate-spin"
+        className="size-6 animate-pulse"
         height={20}
         width={20}
       />

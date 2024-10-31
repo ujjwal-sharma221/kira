@@ -26,7 +26,7 @@ export function UserButton() {
           height={16}
           width={16}
           alt="placeholder"
-          className="animate-spin"
+          className="animate-pulse"
         />
       </div>
     );

@@ -12,7 +12,7 @@ export function ErrorPage({
         alt="error"
         height={20}
         width={20}
-        className="mb-2 size-6 text-muted-foreground"
+        className="mb-2 size-6"
       />
       <p className="text-sm font-semibold text-muted-foreground">{message}</p>
     </div>
