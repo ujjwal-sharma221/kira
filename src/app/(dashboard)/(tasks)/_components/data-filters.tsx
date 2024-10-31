@@ -19,7 +19,7 @@ interface DataFiltersProps {
   hideProjectFilter?: boolean;
 }
 
-export function DataFilters({}: DataFiltersProps) {
+export function DataFilters({ hideProjectFilter }: DataFiltersProps) {
   const workspaceId = useWorkspaceId();
   const { data: projects, isLoading: loadingProjects } = useGetProjects({
     workspaceId,
@@ -117,28 +117,31 @@ export function DataFilters({}: DataFiltersProps) {
         </SelectContent>
       </Select>
 
-      <Select
-        defaultValue={projectId ?? undefined}
-        onValueChange={(value) => {
-          onProjectChange(value);
-        }}
-      >
-        <SelectTrigger className="h-8 w-full lg:w-auto">
-          <div className="flex items-center pr-2">
-            <SquareChartGantt className="mr-2 size-4" />
-            <SelectValue placeholder="all projects" />
-          </div>
-        </SelectTrigger>
-        <SelectContent>
-          <SelectItem value="all">All projects</SelectItem>
-          <SelectSeparator />
-          {projectOptions?.map((m) => (
-            <SelectItem value={m.value} key={m.value}>
-              {m.label}
-            </SelectItem>
-          ))}
-        </SelectContent>
-      </Select>
+      {!hideProjectFilter && (
+        <Select
+          defaultValue={projectId ?? undefined}
+          onValueChange={(value) => {
+            onProjectChange(value);
+          }}
+        >
+          <SelectTrigger className="h-8 w-full lg:w-auto">
+            <div className="flex items-center pr-2">
+              <SquareChartGantt className="mr-2 size-4" />
+              <SelectValue placeholder="all projects" />
+            </div>
+          </SelectTrigger>
+          <SelectContent>
+            <SelectItem value="all">All projects</SelectItem>
+            <SelectSeparator />
+            {projectOptions?.map((m) => (
+              <SelectItem value={m.value} key={m.value}>
+                {m.label}
+              </SelectItem>
+            ))}
+          </SelectContent>
+        </Select>
+      )}
+
       <DatePicker
         placeholder="Due date"
         className="h-8 w-full lg:w-auto"

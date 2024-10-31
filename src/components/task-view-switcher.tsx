@@ -19,7 +19,11 @@ import { PayloadStatus } from "@/features/tasks/types";
 import { useBulkUpdateTask } from "@/features/tasks/api/use-bulk-update-task";
 import { DataCalendar } from "./data-calendar";
 
-export function TaskViewSwitcher() {
+interface TaskViewSwitcherProps {
+  hideProjectFilter?: boolean;
+}
+
+export function TaskViewSwitcher({ hideProjectFilter }: TaskViewSwitcherProps) {
   const [view, setView] = useQueryState("task-view", { defaultValue: "table" });
   const workspaceId = useWorkspaceId();
   const { open } = useCreateTaskModal();
@@ -67,7 +71,7 @@ export function TaskViewSwitcher() {
           </Button>
         </div>
         <Separator className="my-4" />
-        <DataFilters />
+        <DataFilters hideProjectFilter={hideProjectFilter} />
         <Separator className="my-4" />
         {loadingTasks ? (
           <div className="flex h-[200px] w-full flex-col items-center justify-center rounded-lg border">
