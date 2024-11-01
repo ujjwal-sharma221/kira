@@ -10,12 +10,18 @@ import { useProjectId } from "@/hooks/use-projectId";
 import { useGetProject } from "@/features/projects/api/use-get-project";
 import { PageLoader } from "@/components/page-loader";
 import { ErrorPage } from "@/components/page-error";
+import { useGetProjectAnalytics } from "@/features/projects/api/use-get-project-analytics";
+import { Analytics } from "@/components/analytics";
 
 export const ProjectIdClient = () => {
   const projectId = useProjectId();
   const { data, isLoading } = useGetProject({ projectId });
+  const { data: analytics, isLoading: loadingAnalytics } =
+    useGetProjectAnalytics({ projectId });
 
-  if (isLoading) return <PageLoader />;
+  const loading = isLoading || loadingAnalytics;
+
+  if (loading) return <PageLoader />;
   if (!data) return <ErrorPage message="Project not found" />;
 
   return (
@@ -40,6 +46,8 @@ export const ProjectIdClient = () => {
           </Button>
         </div>
       </div>
+      {analytics ? <Analytics data={analytics} /> : null}
+
       <TaskViewSwitcher hideProjectFilter />
     </div>
   );

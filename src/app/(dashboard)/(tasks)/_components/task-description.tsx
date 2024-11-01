@@ -6,17 +6,21 @@ import { Task } from "@/features/tasks/types";
 import { Separator } from "@/components/ui/separator";
 import { useUpdateTask } from "@/features/tasks/api/use-update-task";
 import { Textarea } from "@/components/ui/textarea";
-import { useRouter } from "next/navigation";
 
 export function TaskDescription({ task }: { task: Task }) {
   const [editing, setEditing] = useState(false);
   const [value, setValue] = useState(task.description);
   const { mutate, isPending } = useUpdateTask();
-  const router = useRouter();
 
   const handleSave = () => {
-    mutate({ json: { description: value }, param: { taskId: task.$id } });
-    router.refresh();
+    mutate(
+      { json: { description: value }, param: { taskId: task.$id } },
+      {
+        onSuccess: () => {
+          setEditing(false);
+        },
+      },
+    );
   };
 
   return (
