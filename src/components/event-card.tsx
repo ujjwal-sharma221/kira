@@ -6,11 +6,11 @@ import { projectValues } from "@/features/projects/project-types";
 import { TaskStatus } from "@/features/tasks/types";
 import { useWorkspaceId } from "@/hooks/use-workspace-id";
 import { cn } from "@/lib/utils";
+import { Member } from "@/features/members/types";
 
 interface EventCardProps {
   title: string;
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  assignee: any;
+  assignee: Member;
   project: projectValues;
   status: TaskStatus;
   id: string;

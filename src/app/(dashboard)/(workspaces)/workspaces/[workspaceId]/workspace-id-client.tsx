@@ -121,8 +121,8 @@ export function ProjectList({ data, total }: ProjectListProps) {
   const { open: createProject } = useCreateProjectModal();
 
   return (
-    <div className="col-span-1 flex flex-col gap-y-4">
-      <div className="rounded-lg border p-4">
+    <div className="col-span-1 flex flex-col gap-y-4 bg-neutral-50">
+      <div className="rounded-lg p-4">
         <div className="flex items-center justify-between">
           <p className="text-lg font-semibold">Projects ({total}) </p>
           <Button size="icon" variant="outline" onClick={createProject}>
@@ -134,7 +134,7 @@ export function ProjectList({ data, total }: ProjectListProps) {
           {data.map((p) => (
             <li key={p.$id}>
               <Link href={`/workspaces/${workspaceId}/projects/${p.$id}`}>
-                <Card className="h rounded-lg border-none shadow-none transition hover:opacity-75">
+                <Card className="h -none rounded-lg border-none shadow-none transition hover:opacity-75">
                   <CardContent className="flex items-center gap-x-2.5 p-4">
                     <ProjectAvatar
                       name={p.name}
