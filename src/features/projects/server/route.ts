@@ -38,10 +38,14 @@ const app = new Hono()
       });
       if (!member) return c.json({ error: "Unauthorized" }, 401);
 
-      const projects = await databases.listDocuments(DATABASE_ID, PROJECTS_ID, [
-        Query.equal("workspaceId", workspaceId),
-        Query.orderDesc("$createdAt"),
-      ]);
+      const projects = await databases.listDocuments<projectValues>(
+        DATABASE_ID,
+        PROJECTS_ID,
+        [
+          Query.equal("workspaceId", workspaceId),
+          Query.orderDesc("$createdAt"),
+        ],
+      );
 
       return c.json({ data: projects });
     },
@@ -332,7 +336,7 @@ const app = new Hono()
       workspaceId: existingProject.workspaceId,
       userId: user.$id,
     });
-    if (!member) return c.json({ error: "Unauthrized" }, 401);
+    if (!member) return c.json({ error: "Unauthorized" }, 401);
 
     await databases.deleteDocument(DATABASE_ID, PROJECTS_ID, projectId);
 
